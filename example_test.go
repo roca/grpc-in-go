@@ -2,24 +2,27 @@ package backoffice
 
 import (
 	"fmt"
-	"time"
+	"pb"
+
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func ExampleInvoice() {
 	// TODO: Change to protobuf invoice
-	inv := Invoice{
+	inv := pb.Invoice{
 		ID:       "2023-0123",
-		Time:     time.Date(2023, time.January, 7, 13, 45, 0, 0, time.UTC),
+		Time:     &timestamppb.Timestamp{Seconds: 1671678300},
 		Customer: "Wile E. Coyote",
-		Items: []LineItem{
-			{"hammer-20", 1, 249},
-			{"nail-9", 100, 1},
-			{"glue-5", 1, 799},
+		Items: []*pb.LineItem{
+			{SKU: "hammer-20", Amount: 1, Price: 249},
+			{SKU: "nail-9", Amount: 100, Price: 1},
+			{SKU: "glue-5", Amount: 1, Price: 799},
 		},
 	}
 	fmt.Printf("%v\n", &inv) // Make compiler happy
 	// TODO: Encode to []byte using protobuf
-	data, err := []byte(nil), error(nil)
+	data, err := proto.Marshal(&inv)
 	if err == nil {
 		fmt.Println("size:", len(data))
 	} else {

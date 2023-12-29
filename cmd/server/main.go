@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 
@@ -30,4 +31,14 @@ func main() {
 
 type Rides struct {
 	pb.UnimplementedRidesServer
+}
+
+func (r *Rides) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResponse, error) {
+	// TODO: Valid request
+	resp := &pb.StartResponse{
+		Id: req.Id,
+	}
+	
+	// TODO: Work
+	return resp, nil
 }

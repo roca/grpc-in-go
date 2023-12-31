@@ -20,8 +20,10 @@ message StartRequest {
   string driver_id = 2;
   Location location = 3;
   repeated string passenger_ids = 4;
-  google.protobuf.Timestamp time = 5;
-  RideType type = 6;
+  google.protobuf.Timestamp start = 5;
+  google.protobuf.Timestamp end = 6;
+  double distance = 7;
+  RideType type = 8;
 }
 
 message StartResponse {

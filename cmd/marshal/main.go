@@ -19,7 +19,7 @@ func main() {
 			Lng: -0.1266743,
 		},
 		PassengerIds: []string{"M", "Q"},
-		Time:         timestamppb.Now(),
+		Start:         timestamppb.Now(),
 		Type:         pb.RideType_POOL,
 	}
 	fmt.Println(&req)

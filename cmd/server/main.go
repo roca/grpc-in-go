@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"errors"
+	"io"
 	"log"
 	"net"
 
@@ -57,6 +59,31 @@ func (r *Rides) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartRespo
 
 	// TODO: Work (insert to database ...)
 	return &resp, nil
+}
+
+func (r *Rides) Location(stream pb.Rides_LocationServer) error {
+	count := int64(0)
+	driverID := ""
+
+	for {
+		req, err := stream.Recv()
+		if errors.Is(err, io.EOF) {
+			break
+		}
+		if err != nil {
+			return status.Errorf(codes.Internal, "can't read")
+		}
+		// TODO: Update DB
+		driverID = req.DriverId
+		count++
+	}
+
+	resp := pb.LocationResponse{
+		DriverId: driverID,
+		Count:    count,
+	}
+
+	return stream.SendAndClose(&resp)
 }
 
 type Rides struct {
